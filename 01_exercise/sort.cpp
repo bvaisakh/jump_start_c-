@@ -1,40 +1,46 @@
 #include <iostream>
 using namespace std;
 
-void printCharArray(int size, char **argv);
-double *createDoubleArrayFromArgv(int size, char **argv);
-void printDoubleArray(int size, double *doublePtr);
+void print_char_array(int size, char **argv);
+double *create_double_array(int size, char **argv);
+void print_double_array(int size, double *double_array);
 int compare(const void *x, const void *y);
+void bubble_sort(int size, double *double_array);
 
 int main(int argc, char **argv)
 {
-  double *doubleArray;
+  double *double_array;
   int size = argc - 1;
 
   cout << endl
        << "Printing Input" << endl;
   cout << "--------------" << endl;
-  printCharArray(size, argv);
+  print_char_array(size, argv);
 
-  doubleArray = createDoubleArrayFromArgv(size, argv);
+  double_array = create_double_array(size, argv);
 
   cout << endl
        << "Printing Unsorted Array" << endl;
   cout << "---------------------" << endl;
-  printDoubleArray(size, doubleArray);
+  print_double_array(size, double_array);
 
-  qsort(doubleArray, size, sizeof(double), compare);
+  // qsort(double_array, size, sizeof(double), compare);
+  bubble_sort(size, double_array);
 
   cout << endl
        << "Printing Sorted Array" << endl;
   cout << "---------------------" << endl;
-  printDoubleArray(size, doubleArray);
+  print_double_array(size, double_array);
 
-  free(doubleArray);
+  free(double_array);
   return 0;
 }
 
-void printCharArray(int size, char **argv)
+/*****************************************************************************/
+// display
+/*****************************************************************************/
+
+void print_char_array(int size, char **argv)
 {
   cout << "You have entered " << size << " arguments"
        << endl;
@@ -43,23 +49,47 @@ void printCharArray(int size, char **argv)
     cout << argv[i + 1] << endl;
 }
 
-double *createDoubleArrayFromArgv(int size, char **argv)
-{
-  double *doublePtr = (double *)malloc(size * sizeof(double));
-
-  for (int i = 0; i < size; i++)
-    *(doublePtr + i) = stod(argv[(i + 1)]);
-
-  return doublePtr;
-}
-
-void printDoubleArray(int size, double *doublePtr)
+void print_double_array(int size, double *double_array)
 {
   for (int i = 0; i < size; i++)
-    cout << doublePtr[i] << endl;
+    cout << double_array[i] << endl;
 }
+
+/*****************************************************************************/
+// memory allocation
+/*****************************************************************************/
+
+double *create_double_array(int size, char **argv)
+{
+  double *double_array = (double *)malloc(size * sizeof(double));
+
+  for (int i = 0; i < size; i++)
+    *(double_array + i) = stod(argv[(i + 1)]);
+
+  return double_array;
+}
+
+/*****************************************************************************/
+// std::qsort
+/*****************************************************************************/
 
 int compare(const void *x, const void *y)
 {
   return (*(double *)x - *(double *)y);
+}
+
+/*****************************************************************************/
+// custom bubble sort
+/*****************************************************************************/
+
+void bubble_sort(int size, double *double_array)
+{
+  for (int i = 0; i < (size - 1); i++)
+  {
+    for (int j = 0; j < (size - i - 1); j++)
+    {
+      if (double_array[j] > double_array[j + 1])
+        swap(double_array[j], double_array[j + 1]);
+    }
+  }
 }

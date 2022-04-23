@@ -4,4 +4,4 @@ Read variable count of numbers from command line and sort them using
 
 1. Bubble Sort
 2. qsort
-3. custom implementation of q sort
+3. Bubble sort in std::qsort signature

@@ -5,7 +5,10 @@ void print_char_array(int size, char **argv);
 double *create_double_array(int size, char **argv);
 void print_double_array(int size, double *double_array);
 int compare(const void *x, const void *y);
-void bubble_sort(int size, double *double_array);
+void bubble_sort(void * const base, int total_elems, unsigned long elem_size, int (*compare)(const void *, const void *));
+void swap(const void *_x, const void *_y, unsigned long item_size);
+
+// const void *, const void *
 
 int main(int argc, char **argv)
 {
@@ -13,23 +16,23 @@ int main(int argc, char **argv)
   int size = argc - 1;
 
   cout << endl
-       << "Printing Input" << endl;
-  cout << "--------------" << endl;
+       << "Input" << endl;
+  cout << "-----" << endl;
   print_char_array(size, argv);
 
   double_array = create_double_array(size, argv);
 
   cout << endl
-       << "Printing Unsorted Array" << endl;
-  cout << "---------------------" << endl;
+       << "Unsorted Array" << endl;
+  cout << "--------------" << endl;
   print_double_array(size, double_array);
 
   // qsort(double_array, size, sizeof(double), compare);
-  bubble_sort(size, double_array);
+  bubble_sort(double_array, size, sizeof(double), compare);
 
   cout << endl
-       << "Printing Sorted Array" << endl;
-  cout << "---------------------" << endl;
+       << "Sorted Array" << endl;
+  cout << "------------" << endl;
   print_double_array(size, double_array);
 
   free(double_array);
@@ -42,9 +45,6 @@ int main(int argc, char **argv)
 
 void print_char_array(int size, char **argv)
 {
-  cout << "You have entered " << size << " arguments"
-       << endl;
-
   for (int i = 0; i < size; i++)
     cout << argv[i + 1] << endl;
 }
@@ -82,14 +82,32 @@ int compare(const void *x, const void *y)
 // custom bubble sort
 /*****************************************************************************/
 
-void bubble_sort(int size, double *double_array)
+void bubble_sort(void * const base, int total_elems, unsigned long elem_size, int (*compare)(const void *, const void *))
 {
-  for (int i = 0; i < (size - 1); i++)
+  char *base_ptr = (char *) base;
+
+  for (int i = 0; i < (total_elems - 1); i++)
   {
-    for (int j = 0; j < (size - i - 1); j++)
+    for (int j = 0; j < (total_elems - 1); j++)
     {
-      if (double_array[j] > double_array[j + 1])
-        swap(double_array[j], double_array[j + 1]);
+      char *f_elem = base_ptr + (elem_size * j);
+      char *s_elem = base_ptr + (elem_size * (j + 1));
+      if (compare(f_elem, s_elem) > 0)
+      {
+        swap(f_elem, s_elem, elem_size);
+      }
     }
   }
+}
+
+void swap(const void *_x, const void *_y, unsigned long item_size)
+{
+  char *x = (char *)_x;
+  char *y = (char *)(_y);
+  do
+  {
+    char temp = *x;
+    *x++ = *y;
+    *y++ = temp;
+  } while (--item_size > 0);
 }

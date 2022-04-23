@@ -1,12 +1,14 @@
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 void print_char_array(int size, char **argv);
 double *create_double_array(int size, char **argv);
 void print_double_array(int size, double *double_array);
 int compare(const void *x, const void *y);
-void bubble_sort(void * const base, int total_elems, unsigned long elem_size, int (*compare)(const void *, const void *));
+void bubble_sort(void *const base, int total_elems, unsigned long elem_size, int (*compare)(const void *, const void *));
 void swap(const void *_x, const void *_y, unsigned long item_size);
+void swap_1(char *x, char *y, char *t);
 
 // const void *, const void *
 
@@ -82,9 +84,11 @@ int compare(const void *x, const void *y)
 // custom bubble sort
 /*****************************************************************************/
 
-void bubble_sort(void * const base, int total_elems, unsigned long elem_size, int (*compare)(const void *, const void *))
+void bubble_sort(void *const base, int total_elems, unsigned long elem_size, int (*compare)(const void *, const void *))
 {
-  char *base_ptr = (char *) base;
+  char *base_ptr = (char *)base;
+
+  char *temp = (char *)malloc(sizeof(elem_size));
 
   for (int i = 0; i < (total_elems - 1); i++)
   {
@@ -92,23 +96,33 @@ void bubble_sort(void * const base, int total_elems, unsigned long elem_size, in
     {
       char *f_elem = base_ptr + (elem_size * j);
       char *s_elem = base_ptr + (elem_size * (j + 1));
-      
+
       if (compare(f_elem, s_elem) > 0)
       {
+        // swap_1(f_elem, s_elem, temp);
         swap(f_elem, s_elem, elem_size);
       }
     }
   }
+
+  free(temp);
 }
 
-void swap(const void *_x, const void *_y, unsigned long item_size)
+void swap(const void *_x, const void *_y, unsigned long elem_size)
 {
   char *x = (char *)_x;
-  char *y = (char *)(_y);
+  char *y = (char *)_y;
   do
   {
     char temp = *x;
     *x++ = *y;
     *y++ = temp;
-  } while (--item_size > 0);
+  } while (--elem_size > 0);
+}
+
+void swap_1(void *x, void *y, void *t, unsigned long elem_size)
+{
+  memcpy(t, x, elem_size);
+  memcpy(x, y, elem_size);
+  memcpy(y, t, elem_size);
 }

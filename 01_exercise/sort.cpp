@@ -92,6 +92,7 @@ void bubble_sort(void * const base, int total_elems, unsigned long elem_size, in
     {
       char *f_elem = base_ptr + (elem_size * j);
       char *s_elem = base_ptr + (elem_size * (j + 1));
+      
       if (compare(f_elem, s_elem) > 0)
       {
         swap(f_elem, s_elem, elem_size);

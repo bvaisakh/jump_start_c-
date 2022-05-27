@@ -8,5 +8,6 @@ int main(int argc, char **argv)
     printf(
         "hello world.. %d\t%d\n",
         Add(5, 25),
-        Mul(4, 6));
+        Mul(4, 6)
+    );
 }

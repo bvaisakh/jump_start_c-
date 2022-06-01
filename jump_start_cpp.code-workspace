@@ -4,5 +4,13 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"editor.quickSuggestions": {
+
+			"other": "off",
+			"comments": "off",
+			"strings": "off"
+		},
+		"editor.parameterHints.enabled": false
+	}
 }

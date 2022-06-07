@@ -2,6 +2,13 @@
 #include <dlfcn.h>
 
 // TODO: Get the program working
+// Steps tried
+// g++ -c second.cpp
+// g++ -c third.cpp
+// g++ -shared -fPIC -o libArith.so second.o third.o
+// g++ dyncaller.cpp -ldl
+// ./a.out
+// Program output: Failed to retrive the function ... (Line no: 33)
 // Understand the following
 //   1. Function pointer
 //   2. dlfcn.h header file

@@ -4,8 +4,8 @@
 g++ -c second.cpp
 g++ -c third.cpp
 g++ -shared -fPIC -o libArith.so second.o third.o
-g++ dyncaller.cpp -ldl
-g++ -o program.exe first.cpp ./libArith.so # static linking
+g++ dyncaller.cpp -ldl #dynamic linking
+g++ -o first.exe first.cpp ./libArith.so #static linking
 ./program.exe
 ```
 

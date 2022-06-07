@@ -8,7 +8,7 @@ void print_double_array(int size, double *double_array);
 int compare(const void *x, const void *y);
 void bubble_sort(void *const base, int total_elems, unsigned long elem_size, int (*compare)(const void *, const void *));
 void swap(const void *_x, const void *_y, unsigned long item_size);
-void swap_1(char *x, char *y, char *t);
+void swap_1(void *x, void *y, void *t, unsigned long elem_size);
 
 // const void *, const void *
 

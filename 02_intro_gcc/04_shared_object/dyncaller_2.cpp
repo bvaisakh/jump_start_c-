@@ -1,10 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <dlfcn.h>
-
-typedef int (*BIN_FUNCTION)(int, int);
 
 int main(int argc, char **argv)
 {
+    int (*fn)(int, int);
+    char *error;
     void *handle = dlopen("./libArith.a", RTLD_LAZY);
 
     if (handle == 0)
@@ -13,15 +14,17 @@ int main(int argc, char **argv)
         return 0;
     }
 
-    BIN_FUNCTION bn = (BIN_FUNCTION)dlsym(handle, "Add");
+    dlerror();
 
-    if (bn == 0)
+    *(void **)(&fn) = dlsym(handle, "Add");
+
+    if ((error = dlerror()) != NULL)
     {
-        printf("Failed to retrive the function ... \n");
-        return 0;
+        printf("%s\n", error);
+        exit(EXIT_FAILURE);
     }
 
-    int nc = (*bn)(10, 15);
+    int nc = (*fn)(10, 15);
     printf("Sum is %d \n", nc);
     dlclose(handle);
 }
